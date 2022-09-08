@@ -63,7 +63,8 @@ export class LoginPage implements OnInit {
       inputs:[
         {type: 'text', name: 'username', placeholder: 'Usuario'},
         {type: 'password', name: 'password', placeholder: 'Contraseña'}
-      ]
+      ],
+      backdropDismiss:false
     });
     await alert.present();
   }
