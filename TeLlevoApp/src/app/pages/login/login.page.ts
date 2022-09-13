@@ -3,71 +3,98 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+    selector: 'app-login',
+    templateUrl: './login.page.html',
+    styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
 
-  userRegister = {
-    username: '',
-    password: ''
-  }
+    userRegister = {
+        name: 'a',
+        lastName: 'b',
+        userName: 'asd',
+        password: '123',
+        rut: '1234567',
+        number: '123456789'
+    }
 
-  user = {
-    username: '',
-    password: ''
-  }
+    user = {
+        name: '',
+        lastName: '',
+        userName: '',
+        password: '',
+        rut: '',
+        number: ''
+    }
 
-  constructor( 
-    private alertController: AlertController,
-    private router: Router
+    constructor(
+        private alertController: AlertController,
+        private router: Router
     ) { }
 
-  ngOnInit() {
-  }
-
-  onSubmit() {
-    if(this.user.username == this.userRegister.username && this.user.password == this.userRegister.password){
-      let navigationExtras: NavigationExtras = {
-        state: {
-          user: this.userRegister,
-          aux: 'aux'
-        }
-      };
-      this.router.navigate(['/home'], navigationExtras);
-    } else {
-      this.failedLogin();
+    ngOnInit() {
     }
-  }
- 
-  async failedLogin(){
-    const alert = await this.alertController.create({
-      header: 'Error',
-      message: 'Usuario o contraseña incorrecto(s)',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
 
-  async register() {
-    const alert = await this.alertController.create({
-      header: 'Ingrese sus datos',
-      buttons: [
-        {text: 'Registrar', role: 'register', handler: (alertData) => {
-          this.userRegister.username = alertData.username, 
-          this.userRegister.password = alertData.password
-        }},
-        {text: 'Cancelar', role: 'cancel'}
-      ],
-      inputs:[
-        {type: 'text', name: 'username', placeholder: 'Usuario'},
-        {type: 'password', name: 'password', placeholder: 'Contraseña'}
-      ],
-      backdropDismiss:false
-    });
-    await alert.present();
-  }
+    onSubmit() {
+        if (this.user.userName == this.userRegister.userName && this.user.password == this.userRegister.password) {
+            let navigationExtras: NavigationExtras = {
+                state: {
+                    user: this.userRegister,
+                    aux: 'aux'
+                }
+            };
+            this.router.navigate(['/home'], navigationExtras);
+        } else {
+            this.failedLogin();
+        }
+    }
+
+    async failedLogin() {
+        const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Usuario o contraseña incorrecto(s)',
+            buttons: ['OK'],
+        });
+        await alert.present();
+    }
+
+    async register() {
+        const alert = await this.alertController.create({
+            header: 'Ingrese sus datos',
+            message: '',
+            buttons: [
+                {
+                    text: 'Registrar', role: 'register', handler: (alertData) => {
+                        if (alertData.name != '' && alertData.lastName != '' && alertData.userName != '' && alertData.password != '' && alertData.rut.toString().length >= 7 && alertData.number.toString().length >= 9) {
+                            this.userRegister.name = alertData.name;
+                                this.userRegister.lastName = alertData.lastName;
+                                this.userRegister.userName = alertData.userName;
+                                this.userRegister.password = alertData.password;
+                                this.userRegister.rut = alertData.rut;
+                                this.userRegister.number = alertData.number;
+                                console.log('si');
+                                return true;
+                        } else {
+                            alert.message = 'Error al ingresar un(os) dato(s)';
+                            console.log('no');
+                            return false;
+                        }
+                    }
+                },
+                { text: 'Cancelar', role: 'cancel' }
+            ],
+            inputs: [
+                { type: 'text', name: 'name', placeholder: 'Nombre' },
+                { type: 'text', name: 'lastname', placeholder: 'Apellido' },
+                { type: 'text', name: 'userName', placeholder: 'Usuario (Correo duoc antes de @)' },
+                { type: 'password', name: 'password', placeholder: 'Contraseña' },
+                { type: 'number', name: 'rut', placeholder: 'Rut' },
+                { type: 'number', name: 'number', placeholder: 'Telefono (Sin +56)' }
+            ],
+            backdropDismiss: false
+        });
+        await alert.present();
+    }
 
 
 }

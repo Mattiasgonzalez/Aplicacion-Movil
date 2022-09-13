@@ -9,6 +9,8 @@ import { MenuController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
+  name: '';
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -17,6 +19,7 @@ export class HomePage implements OnInit {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation().extras.state){
         let usuario = this.router.getCurrentNavigation().extras.state.user;
+        this.name = usuario.name;
       }
     })
    }
