@@ -3,9 +3,24 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-item>
     <ion-label>¿Donde Vamos?</ion-label>
     <ion-input></ion-input>
   </ion-item>
-  <img src="assets/img/mapa.jpg" alt="mapa" />
+  <ion-list *ngFor="let item of coleccion" >
+    <ion-item class="animate__animated animate__lightSpeedInRight" routerLink="/payment">
+      <ion-avatar slot="start">
+        <ion-img src="{{item.imagen}}"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.nombre}}</h2>
+        <p>{{item.direccion}}</p>
+        <p>{{item.precio}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

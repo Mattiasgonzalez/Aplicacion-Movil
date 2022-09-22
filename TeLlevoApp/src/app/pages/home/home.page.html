@@ -1,17 +1,29 @@
 <ion-header>
   <app-header [name]='name'></app-header>
 </ion-header>
- <ion-content>
-  <ion-text  color="primary">
-    <h1 class="animate__animated animate__jackInTheBox">Awesome text</h1>
-  </ion-text>
-  <ion-row class="ion-justify-content-center">
-  <ion-button class="animate__animated animate__backInDown" routerLink="/ride" expand="block"  shape="round">
-    Pasajero
-  </ion-button>
-  <ion-button class="animate__animated animate__backInUp center"  routerLink="/ride" expand="block"  shape="round">
-    Conductor
-  </ion-button>
-</ion-row>
- </ion-content>
+<ion-content>
 
+  <ion-grid style="padding-top: 40%;">
+    <ion-row>
+      <ion-col size="12">
+        <ion-text class="ion-text-center" color="primary">
+          <h1 class="animate__animated animate__rubberBand">¿Que Hacemos Hoy?</h1>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="parent-row">
+      <ion-col size="12">
+        <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" routerLink="/ride" expand="block" shape="round">
+          Necesito transporte
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" routerLink="/drive" expand="block" shape="round">
+          Yo Conduzco
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

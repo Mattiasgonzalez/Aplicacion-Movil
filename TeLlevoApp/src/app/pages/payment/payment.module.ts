@@ -1,22 +1,22 @@
+import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DrivePageRoutingModule } from './drive-routing.module';
+import { PaymentPageRoutingModule } from './payment-routing.module';
 
-import { DrivePage } from './drive.page';
-import { ComponentsModule } from '../../components/components.module';
+import { PaymentPage } from './payment.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DrivePageRoutingModule,
+    PaymentPageRoutingModule,
     ComponentsModule,
   ],
-  declarations: [DrivePage]
+  declarations: [PaymentPage]
 })
-export class DrivePageModule {}
+export class PaymentPageModule {}

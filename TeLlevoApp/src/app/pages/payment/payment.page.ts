@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+
 @Component({
-  selector: 'app-drive',
-  templateUrl: './drive.page.html',
-  styleUrls: ['./drive.page.scss'],
+  selector: 'app-payment',
+  templateUrl: './payment.page.html',
+  styleUrls: ['./payment.page.scss'],
 })
-export class DrivePage implements OnInit {
+export class PaymentPage implements OnInit {
 
   constructor(private alertController: AlertController) {}
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Viaje programado con exito',
+      header: 'Pago Realizado',
       subHeader: 'Tenga un buen viaje',
       buttons: ['OK'],
     });
 
     await alert.present();
   }
-
   ngOnInit() {
   }
 
 }
+
