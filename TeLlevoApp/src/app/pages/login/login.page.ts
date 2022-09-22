@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import { LoadingController } from '@ionic/angular';
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
@@ -29,7 +29,8 @@ export class LoginPage implements OnInit {
 
     constructor(
         private alertController: AlertController,
-        private router: Router
+        private router: Router,
+        private loadingCtrl: LoadingController
     ) { }
 
     ngOnInit() {
@@ -95,6 +96,15 @@ export class LoginPage implements OnInit {
         });
         await alert.present();
     }
+    
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Autenticando...',
+      duration: 3000,
+    });
+
+    loading.present();
+  }
 
 
 }
