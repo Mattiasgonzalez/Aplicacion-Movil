@@ -1,11 +1,12 @@
 <ion-toolbar color="secondary">
   <ion-buttons slot="start">
-    <ion-menu-button></ion-menu-button>
+
+      <ion-back-button *ngIf="name.substring(0,10)!='Bienvenido'"></ion-back-button>
   </ion-buttons>
   <ion-buttons slot="secondary">
     <ion-button>
       <ion-icon slot="icon-only" name="person-circle"></ion-icon>
     </ion-button>
   </ion-buttons>
-  <ion-title class="animate__animated animate__jackInTheBox">Bienvenido Test</ion-title>
+  <ion-title class="animate__animated animate__jackInTheBox" class="ion-text-center">{{name}}</ion-title>
 </ion-toolbar>

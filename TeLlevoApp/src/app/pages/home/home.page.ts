@@ -9,7 +9,7 @@ import { MenuController, LoadingController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  name: '';
+  name = ''; 
 
   constructor(
     private router: Router,
@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation().extras.state){
         let usuario = this.router.getCurrentNavigation().extras.state.user;
-        this.name = usuario.name;
+        this.name = this.name.concat("Bienvenido ",usuario.name.toString());
       }
     })
    }

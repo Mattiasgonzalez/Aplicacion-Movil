@@ -9,6 +9,8 @@ export class RidePage implements OnInit {
 
   constructor() { }
 
+  name = 'Pasajero';
+
   ngOnInit() {
   }
 
