@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
-
+import { AlertController, MenuController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
@@ -30,11 +30,18 @@ export class LoginPage implements OnInit {
     constructor(
         private alertController: AlertController,
         private router: Router,
-        private loadingCtrl: LoadingController
+        private loadingCtrl: LoadingController,
+        private MenuController: MenuController
     ) { }
 
     ngOnInit() {
+    }
         
+    ionViewWillEnter() {
+        this.MenuController.enable(false);
+    }
+    ionViewDidLeave() {
+        this.MenuController.enable(true);
     }
 
     onSubmit() {
@@ -107,10 +114,11 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       message: 'Autenticando...',
       duration: 3000,
+        }
       
-    });
+        );
 
-    loading.present();
+        await loading.present();
   }
 
 
