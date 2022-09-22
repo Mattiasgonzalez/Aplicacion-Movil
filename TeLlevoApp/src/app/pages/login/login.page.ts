@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
@@ -34,6 +34,7 @@ export class LoginPage implements OnInit {
     ) { }
 
     ngOnInit() {
+        
     }
 
     onSubmit() {
@@ -44,7 +45,12 @@ export class LoginPage implements OnInit {
                     aux: 'aux'
                 }
             };
-            this.router.navigate(['/home'], navigationExtras);
+            this.showLoading();
+            setTimeout(() => {
+                this.router.navigate(['/home'], navigationExtras);
+            },
+                3000);
+            
         } else {
             this.failedLogin();
         }
@@ -101,6 +107,7 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       message: 'Autenticando...',
       duration: 3000,
+      
     });
 
     loading.present();

@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,8 @@ export class HomePage implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private loadingCtrl: LoadingController,
   ) {
     this.activatedRoute.queryParams.subscribe(params=>{
       if(this.router.getCurrentNavigation().extras.state){
@@ -26,5 +27,8 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
   }
-
 }
+  
+
+
+
