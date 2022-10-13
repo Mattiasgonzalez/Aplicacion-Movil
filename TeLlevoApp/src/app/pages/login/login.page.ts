@@ -42,6 +42,7 @@ export class LoginPage implements OnInit {
         let userValidation = await this.storage.get(this.user.userName);
         if (userValidation!=null){
             if (this.user.userName == userValidation.userName && this.user.password == userValidation.password) {
+                this.storage.set('session', this.user.userName);
                 this.showLoading();
                 setTimeout(() => {
                     this.router.navigate(['/home']);
