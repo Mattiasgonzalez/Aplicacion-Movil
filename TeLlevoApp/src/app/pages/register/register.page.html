@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="ionicForm" (ngSubmit)="onSubmit()" novalidate>
+    <ion-text color="primary">
+      <h1>Ingrese los datos para su cuenta</h1>
+    </ion-text>
+    <ion-item>
+      <ion-label position="fixed">Usuario</ion-label>
+      <ion-input formControlName="userName" type="text" placeholder="Usuario" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.required">
+      Nombre de usuario requerido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.maxlength">
+      Nombre de usuario no puede exceder los 20 caracteres
+    </span>
+
+    <ion-item>
+      <ion-label position="fixed">Nombre</ion-label>
+      <ion-input formControlName="name" type="text" placeholder="Nombre" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required">
+      Nombre requerido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.maxlength">
+      Nombre no puede exceder los 20 caracteres
+    </span>
+
+    <ion-item>
+      <ion-label position="fixed">Apellido</ion-label>
+      <ion-input formControlName="lastName" type="text" placeholder="Apellido" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.lastName.errors?.required">
+      Apellido requerido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.lastName.errors?.maxlength">
+      Apellido no puede exceder los 20 caracteres
+    </span>
+
+    <ion-item>
+      <ion-label position="fixed">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Contraseña" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
+      Contraseña requerida
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.maxlength">
+      Contraseña no puede exceder los 20 caracteres
+    </span>
+
+    <ion-item>
+      <ion-label position="fixed">Rut</ion-label>
+      <ion-input formControlName="rut" type="text" placeholder="Rut" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rut.errors?.required">
+      Rut requerido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rut.errors?.minlength">
+      Rut invalido no suficientes caracteres
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.rut.errors?.maxlength">
+      Rut invalido excede el limite
+    </span>
+
+    <ion-item>
+      <ion-label position="fixed">Numero celular</ion-label>
+      <ion-input formControlName="number" type="text" placeholder="Numero celular" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.number.errors?.required">
+      Numero celular requerido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.number.errors?.maxlength">
+      Numero celular no valido
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.number.errors?.minlength">
+      Numero celular no valido
+    </span>
+
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button expand="block" type="submit" fill="outline">Registrarse</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
