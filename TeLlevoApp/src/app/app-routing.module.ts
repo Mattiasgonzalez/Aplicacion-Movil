@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes, CanActivate } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: '',
@@ -17,19 +19,23 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: 'drive',
-    loadChildren: () => import('./pages/drive/drive.module').then( m => m.DrivePageModule)
+    loadChildren: () => import('./pages/drive/drive.module').then( m => m.DrivePageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: 'ride',
-    loadChildren: () => import('./pages/ride/ride.module').then( m => m.RidePageModule)
+    loadChildren: () => import('./pages/ride/ride.module').then( m => m.RidePageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: 'payment',
-    loadChildren: () => import('./pages/payment/payment.module').then( m => m.PaymentPageModule)
+    loadChildren: () => import('./pages/payment/payment.module').then( m => m.PaymentPageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: 'register',
