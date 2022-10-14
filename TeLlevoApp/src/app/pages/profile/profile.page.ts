@@ -73,7 +73,8 @@ export class ProfilePage implements OnInit {
 
   async modifyAccount() {
       await this.storage.set(this.ionicForm.get('userName').value, this.ionicForm.value);
-      window.location.reload();
+      //window.location.reload();
+      this.router.navigate(['/home']);
   }
 
 }

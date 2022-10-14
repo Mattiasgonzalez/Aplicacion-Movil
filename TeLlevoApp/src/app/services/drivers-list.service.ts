@@ -27,7 +27,7 @@ export class DriversListService {
   }
 
   async removeItem(index){
-    const storedData = await this.storage.get(STORAGE_KEY) || [];
+    const storedData = await this.storage.get(STORAGE_KEY[index]) || [];
     storedData.splice(index,1);
     return this.storage.set(STORAGE_KEY, storedData);
   }

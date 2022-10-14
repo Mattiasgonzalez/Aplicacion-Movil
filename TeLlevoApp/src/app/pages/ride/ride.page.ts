@@ -35,13 +35,14 @@ export class RidePage implements OnInit {
 
   onClick(index){
     this.removeItem(index)
-    this.coleccion[index].available = false
-    this.driversListService.addData(this.coleccion[index])
+    //this.coleccion[index].available = false
+    //this.driversListService.addData(this.coleccion[index])x
     this.router.navigate(['/home']);
   }
 
   async removeItem(index){
     await this.driversListService.removeItem(index);
+    this.driverList.splice(index,1);
   }
 
 }
