@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { FormGroup } from '@angular/forms';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,14 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProfilePage implements OnInit {
   
-  user = {}
+  user : User = {
+    name: '',
+    lastName: '',
+    userName: '',
+    password: '',
+    rut: '',
+    number: ''
+  }
   name = '';
   ionicForm: FormGroup;
   isSubmitted = false;

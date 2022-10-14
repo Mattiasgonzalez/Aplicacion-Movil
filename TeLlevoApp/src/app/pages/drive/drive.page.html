@@ -1,31 +1,35 @@
-<ion-header>
-<app-header></app-header>
+<ion-header >
+  <ion-toolbar color="secondary" class="ion-padding-horizontal">
+    <ion-buttons slot="end">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear viaje</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label>¿Donde Vamos?</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Precio</ion-label>
-    <ion-input type="number"></ion-input>
-  </ion-item>
-  <ion-img style="padding-top:5%" src="/assets/img/mapa.jpg"></ion-img>
-  <ion-grid style="padding-top: 20%;">
-    <ion-row class="parent-row">
-      <ion-col size="12">
-        <ion-button (click)="presentAlert()" color="success" class="animate__animated animate__backInDown" routerLink="/home" expand="block" shape="round">
-          Programar viaje
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-button class="animate__animated animate__backInUp" color="danger" routerLink="/home" expand="block" shape="round">
-          Cancelar viaje
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+  <form #frmCrear="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">¿Donde Vamos?</ion-label>
+      <ion-input required type="text" name="direccion" [(ngModel)]="list.direction"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input required type="number" name="price" [(ngModel)]="list.price"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Asientos</ion-label>
+      <ion-input required type="number" name="seats" [(ngModel)]="list.seats"></ion-input>
+    </ion-item>
+    <ion-img style="padding-top:5%" src="/assets/img/mapa.jpg"></ion-img>
+    <ion-button expand="full" shape="round" class="ion-margin-top animate__animated animate__backInDown" color="primary"
+      type="submit" [disabled]="frmCrear.invalid">
+      Crear viaje 
+    </ion-button>
+    <ion-button class="animate__animated animate__backInUp" color="danger" routerLink="/home" expand="block"
+      shape="round">
+      Cancelar viaje
+    </ion-button>
+  </form>
 </ion-content>

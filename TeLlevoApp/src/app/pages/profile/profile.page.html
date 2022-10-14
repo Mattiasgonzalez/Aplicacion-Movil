@@ -23,7 +23,7 @@
   <form class="ion-padding" [formGroup]="ionicForm" (ngSubmit)="onSubmit()" novalidate>
     <ion-item>
       <ion-label position="fixed">Usuario</ion-label>
-      <ion-input disabled value="{{user.userName}}" formControlName="userName" type="text" placeholder="Usuario" required clearInput></ion-input>
+      <ion-input [disabled]="true" value="{{user.userName}}" formControlName="userName" type="text" placeholder="Usuario" required clearInput></ion-input>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.userName.errors?.required">
       Nombre de usuario requerido
