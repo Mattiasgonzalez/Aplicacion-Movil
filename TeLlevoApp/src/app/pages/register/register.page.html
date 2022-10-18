@@ -83,6 +83,17 @@
       Numero celular no valido
     </span>
 
+    <ion-item>
+      <ion-label position="fixed">Pregunta</ion-label>
+      <ion-input formControlName="pregunta" type="text" placeholder="¿Animal Favorito?" required clearInput></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.pregunta.errors?.required">
+      Respuesta requerida
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.pregunta.errors?.maxlength">
+      Su respuesta no puede exceder los 20 caracteres
+    </span>
+
     <ion-grid fixed>
       <ion-row>
         <ion-col size="12">

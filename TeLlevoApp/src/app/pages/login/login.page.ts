@@ -16,7 +16,8 @@ export class LoginPage implements OnInit {
         userName: '',
         password: '',
         rut: '',
-        number: ''
+        number: '',
+        pregunta: '',
     }
 
     constructor(

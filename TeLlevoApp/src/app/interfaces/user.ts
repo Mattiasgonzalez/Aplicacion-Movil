@@ -5,5 +5,6 @@ export interface User {
     password: string;
     rut: string;
     number: string;
+    pregunta: string;
 }
 

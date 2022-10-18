@@ -19,7 +19,8 @@ export class ProfilePage implements OnInit {
     userName: '',
     password: '',
     rut: '',
-    number: ''
+    number: '',
+    pregunta: '',
   }
   name = '';
   ionicForm: FormGroup;
@@ -50,7 +51,8 @@ export class ProfilePage implements OnInit {
       userName: ['', [Validators.required, Validators.maxLength(20)]],
       password: ['', [Validators.required, Validators.maxLength(20)]],
       rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9)]],
-      number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]]
+      number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      pregunta:['', [Validators.required, Validators.maxLength(20)]],
     })
     this.getUserData()
   }
