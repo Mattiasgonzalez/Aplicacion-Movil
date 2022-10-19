@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class RegisterPage implements OnInit {
 
+  // Variables
   ionicForm: FormGroup;
   isSubmitted = false;
 
@@ -38,8 +39,10 @@ export class RegisterPage implements OnInit {
   ionViewWillEnter() { this.menuController.enable(false); }
   ionViewDidLeave() { this.menuController.enable(true); }
 
+  // Controlador de errores para Form
   get errorControl() { return this.ionicForm.controls; }
 
+  // Si la forma es valida llamamos a la funcion que crea la cuenta
   onSubmit() {
     this.isSubmitted = true;
     if (!this.ionicForm.valid) {
@@ -49,8 +52,10 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  // Creamos la cuenta si esque esta no existe
   async createAccount() {
     let accAlreadyExists = await this.storage.get(this.ionicForm.get('userName').value);
+    //let userAux = this.ionicForm.get('userName').value + "-user"
     if (accAlreadyExists == null) {
       await this.storage.set(this.ionicForm.get('userName').value, this.ionicForm.value);
       this.showLoading();

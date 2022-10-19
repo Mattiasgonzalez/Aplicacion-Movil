@@ -18,13 +18,13 @@
   <ion-list *ngFor="let item of coleccion; let i = index" >
     <ion-item *ngIf="item.available" class="animate__animated animate__lightSpeedInRight" (click)="onClick(i)">
       <ion-avatar slot="start">
-        <ion-img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.vecteezy.com%2Ffoto%2F3620025-perro-con-sonrisa-rara-y-lentes-oscuros&psig=AOvVaw0JDH39wHupmwRO21e6yk9j&ust=1665809241567000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCID4yJL13voCFQAAAAAdAAAAABAE"></ion-img>
+        <ion-img src="https://thumbs.dreamstime.com/z/perro-en-gafas-de-sol-3720896.jpg"></ion-img>
       </ion-avatar>
       <ion-label>
         <h2>{{item.name}}</h2>
         <p>{{item.direction}}</p>
         <p>${{item.price}}</p>
-        <p>{{item.seats}} Asientos</p>
+        <p>{{item.seatsAvailable}} Asientos</p>
       </ion-label>
     </ion-item>
   </ion-list>

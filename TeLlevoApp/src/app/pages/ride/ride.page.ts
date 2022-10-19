@@ -1,6 +1,8 @@
 import { DriversListService } from './../../services/drivers-list.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { destroyView } from '@ionic/angular/directives/navigation/stack-utils';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-ride',
@@ -9,18 +11,22 @@ import { Router } from '@angular/router';
 })
 export class RidePage implements OnInit {
 
-  constructor(private driversListService: DriversListService, private router: Router) { 
+  constructor(
+      private driversListService: DriversListService,
+      private router: Router,
+      private storage: Storage) { 
     this.loadData();
   }
 
 
-  name = 'Pasajero';
+  name = '';
 
   driverList=[];
   coleccion = [];
 
   async loadData(){
-    this.driverList = await this.driversListService.getData();
+    this.driverList = await this.driversListService.getDataDriversList();
+    this.name = await this.storage.get('session');
   }
 
   ngOnInit() {
@@ -33,16 +39,24 @@ export class RidePage implements OnInit {
     }, 2000);
   }
 
-  onClick(index){
-    this.removeItem(index)
-    //this.coleccion[index].available = false
-    //this.driversListService.addData(this.coleccion[index])x
-    this.router.navigate(['/home']);
+  async onClick(index){
+    await this.seatsHandler(index);
+    // Destruimos la vista al salir para poder cargar la animacion denuevo.
+    this.router.navigate(['/home'], {replaceUrl: true});
+    
   }
 
-  async removeItem(index){
-    await this.driversListService.removeItem(index);
-    this.driverList.splice(index,1);
+  async seatsHandler(index){
+    console.log(this.coleccion[index].seatsAvailable)
+    if(this.coleccion[index].seatsAvailable > 1){
+      this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
+      await this.driversListService.updateSeatsDriversList(this.coleccion);
+      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, this.name)
+    }else{
+      this.coleccion[index].available = false;
+      this.coleccion[index].seatsAvailable = 0
+      await this.driversListService.updateSeatsDriversList(this.coleccion);
+    }
   }
 
 }

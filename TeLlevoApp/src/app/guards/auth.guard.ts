@@ -18,11 +18,9 @@ export class AuthGuard implements CanActivate {
     let usr=await this.storage.get('session');
     if (usr!=null)
     {
-      console.log(usr)
       return true;
       
     }else{
-      console.log(usr)
       this.router.navigate(['/login']);
     }
     return false;

@@ -20,6 +20,6 @@ export class AppComponent {
   onClick(){
     console.log("cerramos sesion")
     this.storage.set('session', null)
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {replaceUrl: true});
   }
 }
