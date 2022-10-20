@@ -84,8 +84,12 @@
     </span>
 
     <ion-item>
-      <ion-label position="fixed">Pregunta</ion-label>
-      <ion-input formControlName="pregunta" type="text" placeholder="¿Animal Favorito?" required clearInput></ion-input>
+      <ion-select placeholder="Elija Pregunta">
+        <ion-select-option value="ciudad">¿Ciudad de nacimiento?</ion-select-option>
+        <ion-select-option value="animal">¿Animal Favorito?</ion-select-option>
+        <ion-select-option value="comida">¿Comida Favorita?</ion-select-option>
+      </ion-select>
+      <ion-input formControlName="pregunta" type="text" placeholder="Respuesta" required clearInput></ion-input>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.pregunta.errors?.required">
       Respuesta requerida
