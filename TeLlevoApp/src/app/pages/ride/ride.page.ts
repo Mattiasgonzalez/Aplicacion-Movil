@@ -20,6 +20,7 @@ export class RidePage implements OnInit {
 
 
   name = '';
+  user={name:''};
 
   driverList=[];
   coleccion = [];
@@ -27,6 +28,7 @@ export class RidePage implements OnInit {
   async loadData(){
     this.driverList = await this.driversListService.getDataDriversList();
     this.name = await this.storage.get('session');
+    this.user = await this.storage.get(this.name);
   }
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class RidePage implements OnInit {
     if(this.coleccion[index].seatsAvailable > 1){
       this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
       await this.driversListService.updateSeatsDriversList(this.coleccion);
-      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, this.name);
+      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, {name: this.user.name, userName: this.name});
       await this.driversListService.updateUserRide(this.name, {driversUserName: this.coleccion[index].userName,
                                                     driversName: this.coleccion[index].name,
                                                     price: this.coleccion[index].price,

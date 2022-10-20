@@ -13,7 +13,7 @@
     </ion-row>
     <ion-row *ngIf="auxDrive == false && auxRide == false"  class="parent-row">
       <ion-col size="12">
-        <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" routerLink="/ride" expand="block" shape="round">
+        <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" (click)="routerToPasajero()" expand="block" shape="round">
           Necesito transporte
         </ion-button>
       </ion-col>
@@ -56,6 +56,13 @@
         </ion-button>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="auxRide">
+      <ion-col size="12">
+        <ion-button (click)="cancelarpasajero()" expand="block" color="success" shape="round">
+          Cancelar viaje
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
     
 
@@ -73,7 +80,7 @@
             <ion-img src="https://i.pinimg.com/originals/94/6e/ff/946eff7741c6af1436dfe4975d31d95c.jpg"></ion-img>
           </ion-avatar>
           <ion-label>
-            <p>Nombre: {{item}}</p>
+            <p>Nombre: {{item.name}}</p>
           </ion-label>
         </ion-item>
       </ion-list>

@@ -102,9 +102,15 @@ async clickFinishDrive(){
     await alert.present();
   }
 
+  routerToPasajero(){
+    this.router.navigate(['/ride'], {replaceUrl:true});
+  }
+
   finalizarpasajero(){
 
-    console.log("llegue")
+  }
+
+  cancelarpasajero(){
 
   }
   
