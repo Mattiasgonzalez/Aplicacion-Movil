@@ -15,7 +15,9 @@ export class HomePage implements OnInit {
   drive = {}
   auxDrive = false;
   driverList = [];
+  driverList2 = [];
   driversPassangers=[];
+  driversPassangersAsRider=[];
   auxRide = false;
   ride = {
     driversUserName: '',
@@ -56,6 +58,14 @@ export class HomePage implements OnInit {
     this.drive = await this.driversListService.getUserDrive(this.name);
     this.ride = await this.driversListService.getUserRide(this.name);
     this.driversPassangers = await this.driversListService.getUserDrivePassangers(this.name);
+    await this.dpar()
+    this.driverList2 = await this.driversListService.getDataDriversList();
+  }
+  async dpar(){
+    if(this.auxRide ==true){
+      this.driversPassangersAsRider = await this.driversListService.getUserDrivePassangers(this.ride.driversUserName);
+    }
+    
   }
 
 async clickFinishDrive(){
@@ -107,11 +117,23 @@ async clickFinishDrive(){
   }
 
   finalizarpasajero(){
-
+    this.cancelarpasajero();
   }
 
-  cancelarpasajero(){
-
+  async cancelarpasajero(){
+    for (let index = 0; index < this.driversPassangersAsRider.length; index++) {
+      if(this.driversPassangersAsRider[index].userName == this.name){
+        await this.driversListService.removeUserDrivePassangers2(this.driversPassangersAsRider[index].userName, index)
+        for (let index = 0; index < this.driverList2.length; index++) {
+          if(this.driverList2[index].userName == this.ride.driversUserName && this.driverList2[index].available == true){
+            console.log("hello")
+            this.driverList2[index].seatsAvailable = this.driverList2[index].seatsAvailable + 1;
+            await this.driversListService.updateSeatsDriversList(this.driverList2); 
+          }
+        }
+      }
+    }
+    await this.driversListService.removeUserRide(this.name);
   }
   
 }

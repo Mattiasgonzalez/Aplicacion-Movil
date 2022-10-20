@@ -76,6 +76,13 @@ export class DriversListService {
     await this.storage.remove(name+"-drive-passangers");
   }
 
+  async removeUserDrivePassangers2(driversName, index){
+    const storedData = await this.storage.get(driversName+"-drive-passangers");
+    storedData.splice(index,1);
+    this.storage.remove(driversName+"-drive-passangers");
+    this.storage.set(driversName+"-drive-passangers", storedData);
+  }
+
   /* ---------- USER AS RIDER ---------- */
 
   async getUserRide(name){
