@@ -20,16 +20,25 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Asientos</ion-label>
-      <ion-input required type="number" name="seats" [(ngModel)]="list.seats"></ion-input>
+      <ion-input required [min]="1" type="number" name="seats" [(ngModel)]="list.seats"></ion-input>
     </ion-item>
-    <ion-img style="padding-top:5%" src="/assets/img/mapa.jpg"></ion-img>
+    <ion-item>
+      <ion-label position="floating">Hora de salida</ion-label>
+      <ion-input required type="time" name="time" [(ngModel)]="list.time"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descripcion del automovil</ion-label>
+      <ion-input required type="text" name="description" [(ngModel)]="list.description"></ion-input>
+    </ion-item>
+    <ion-img style="padding-top:5%" src="https://cope-cdnmed.agilecontent.com/resources/jpg/7/9/1586328085897.jpg"></ion-img>
     <ion-button expand="full" shape="round" class="ion-margin-top animate__animated animate__backInDown" color="primary"
       type="submit" [disabled]="frmCrear.invalid">
       Crear viaje 
     </ion-button>
-    <ion-button class="animate__animated animate__backInUp" color="danger" routerLink="/home" expand="block"
+    
+  </form>
+  <ion-button class="animate__animated animate__backInUp" color="danger" type="" routerLink="/home" expand="block"
       shape="round">
       Cancelar viaje
     </ion-button>
-  </form>
 </ion-content>

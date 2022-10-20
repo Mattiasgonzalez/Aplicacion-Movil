@@ -41,7 +41,9 @@ export class DrivePage implements OnInit {
     price: '',
     seats: 0,
     seatsAvailable: 0,
-    available: true
+    available: true,
+    time: '',
+    description: ''
   }
 
   driverList = [];
@@ -78,7 +80,7 @@ export class DrivePage implements OnInit {
 
   async createUserDriver(){
     //let aux = await this.driversListService.getUserDrive(this.list.userName);
-    await this.driversListService.createUserDriver(this.list.name, this.list);
+    await this.driversListService.createUserDriver(this.list.userName, this.list);
     
   }
 
