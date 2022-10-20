@@ -28,7 +28,8 @@ export class LoginPage implements OnInit {
         private storage: Storage
     ) { }
 
-    ngOnInit() {
+    async ngOnInit() {
+        await this.storage.set('session', null);
     }
 
     ionViewWillEnter() {
@@ -38,6 +39,10 @@ export class LoginPage implements OnInit {
     ionViewDidLeave() {
         this.MenuController.enable(true);
     }
+
+    fpassword(){
+        this.router.navigate(['/forgotpassword'], {replaceUrl: true});
+      }
 
     async onSubmit() {
         let userValidation = await this.storage.get(this.user.userName);

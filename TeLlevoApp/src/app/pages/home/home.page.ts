@@ -16,13 +16,14 @@ export class HomePage implements OnInit {
   auxDrive = false;
   driverList = [];
   driversPassangers=[];
+  auxRide = false;
   ride = {
-    driverName: '',
-    riderName: '',
+    driversUserName: '',
+    driversName: '',
     direction: '',
-    price: '',
+    description: '',
     time: '',
-    carDescription: ''
+    price: ''
   }
 
   constructor(
@@ -40,6 +41,11 @@ export class HomePage implements OnInit {
     console.log(this.drive)
     if(this.drive!=null){
       this.auxDrive = true;
+    }
+    if(this.ride==null){
+      this.auxRide = false;
+    }else{
+      this.auxRide = true;
     }
   }
   

@@ -44,7 +44,7 @@ async onSubmit() {
           this.storage.set('session', this.user.userName);
           this.showLoading();
           setTimeout(() => {
-              this.router.navigate(['/profile']);
+              this.router.navigate(['/profile'], {replaceUrl: true});
           }, 1000);
       }
   }

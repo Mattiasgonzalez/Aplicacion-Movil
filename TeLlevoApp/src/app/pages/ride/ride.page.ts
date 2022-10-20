@@ -46,12 +46,21 @@ export class RidePage implements OnInit {
     
   }
 
+  //hora salida, direccion, auto, nombre chofer
+
   async seatsHandler(index){
     console.log(this.coleccion[index].seatsAvailable)
     if(this.coleccion[index].seatsAvailable > 1){
       this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
       await this.driversListService.updateSeatsDriversList(this.coleccion);
-      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, this.name)
+      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, this.name);
+      await this.driversListService.updateUserRide(this.name, {driversUserName: this.coleccion[index].userName,
+                                                    driversName: this.coleccion[index].name,
+                                                    price: this.coleccion[index].price,
+                                                    direction: this.coleccion[index].direction,
+                                                    description: this.coleccion[index].description,
+                                                    time: this.coleccion[index].time
+                                                    });
     }else{
       this.coleccion[index].available = false;
       this.coleccion[index].seatsAvailable = 0
