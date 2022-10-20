@@ -86,4 +86,8 @@ export class DriversListService {
     await this.storage.set(name+"-ride", item);
   }
 
+  async removeUserRide(name){
+    await this.storage.remove(name+"-ride");
+  }
+
 }

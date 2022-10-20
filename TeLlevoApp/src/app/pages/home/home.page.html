@@ -4,21 +4,21 @@
 <ion-content>
 
   <ion-grid style="padding-top: 40%;">
-    <ion-row>
+    <ion-row *ngIf="auxDrive == false && auxRide == false">
       <ion-col size="12">
         <ion-text class="ion-text-center" color="primary">
           <h1 class="animate__animated animate__rubberBand">¿Que Hacemos Hoy?</h1>
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row class="parent-row">
+    <ion-row *ngIf="auxDrive == false && auxRide == false"  class="parent-row">
       <ion-col size="12">
         <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" routerLink="/ride" expand="block" shape="round">
           Necesito transporte
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="auxDrive == false && auxRide == false">
       <ion-col size="12">
         <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" 
         (click)="clickToDrive()"  expand="block" shape="round">
@@ -27,6 +27,14 @@
       </ion-col>
     </ion-row>
     
+    <!-- Pasajero -->
+    <ion-row *ngIf="auxRide">
+      <ion-col size="12">
+        <ion-text class="ion-text-center" color="primary">
+          <h1 class="animate__animated animate__rubberBand">Datos de tu Chofer</h1>
+        </ion-text>
+      </ion-col>
+    </ion-row>
     <ion-row *ngIf="auxRide">
       <ion-item>
         <ion-avatar>
@@ -41,10 +49,22 @@
         </ion-label>
       </ion-item>
     </ion-row>
-
-    <ion-row *ngIf="auxDrive" >
+    <ion-row *ngIf="auxRide">
       <ion-col size="12">
-        <p>Pasajeros:</p>
+        <ion-button (click)="finalizarpasajero()" expand="block" color="success" shape="round">
+          Llegue a Casa
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    
+
+    <!-- Chofer -->
+    <ion-row *ngIf="auxDrive">
+      <ion-col size="12">
+        <ion-text class="ion-text-center" color="primary">
+          <h1 class="animate__animated animate__rubberBand">Tus pasajeros:</h1>
+        </ion-text>
       </ion-col>
     </ion-row>
       <ion-list *ngFor="let item of driversPassangers; let i = index">

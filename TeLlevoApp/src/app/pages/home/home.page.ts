@@ -101,5 +101,11 @@ async clickFinishDrive(){
     });
     await alert.present();
   }
+
+  finalizarpasajero(){
+
+    console.log("llegue")
+
+  }
   
 }
