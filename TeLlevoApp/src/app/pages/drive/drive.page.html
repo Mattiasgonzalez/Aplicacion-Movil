@@ -16,11 +16,11 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Precio</ion-label>
-      <ion-input required type="number" name="price" [(ngModel)]="list.price"></ion-input>
+      <ion-input required (keypress)="isNumberKey($event)" name="price" [(ngModel)]="list.price"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Asientos</ion-label>
-      <ion-input required [min]="1" type="number" name="seats" [(ngModel)]="list.seats"></ion-input>
+      <ion-input required (keypress)="isNumberKey($event)" name="seats" [(ngModel)]="list.seats"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Hora de salida</ion-label>
@@ -31,8 +31,8 @@
       <ion-input required type="text" name="description" [(ngModel)]="list.description"></ion-input>
     </ion-item>
     <ion-img style="padding-top:5%" src="https://cope-cdnmed.agilecontent.com/resources/jpg/7/9/1586328085897.jpg"></ion-img>
-    <ion-button expand="full" shape="round" class="ion-margin-top animate__animated animate__backInDown" color="primary"
-      type="submit" [disabled]="frmCrear.invalid">
+    <ion-button [disabled]="frmCrear.invalid" expand="full" shape="round" class="ion-margin-top animate__animated animate__backInDown" color="primary"
+      type="submit" >
       Crear viaje 
     </ion-button>
     

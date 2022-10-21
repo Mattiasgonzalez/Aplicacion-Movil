@@ -20,7 +20,8 @@ export class DrivePage implements OnInit {
     this.name();
     this.loadData();
   }
-
+  checker1: boolean = true;
+  checker2: boolean = true;
 
   /* ---------- VARIABLES ---------- */
 
@@ -38,8 +39,8 @@ export class DrivePage implements OnInit {
     userName: '',
     name: '',
     direction: '',
-    price: '',
-    seats: 0,
+    price: null,
+    seats: null,
     seatsAvailable: 0,
     available: true,
     time: '',
@@ -68,14 +69,27 @@ export class DrivePage implements OnInit {
     this.user = await this.storage.get(this.list.userName);
     this.list.name = this.user.name;
   }
-
+  async presentAlertError() {
+    const alert = await this.alertController.create({
+      header: 'Viaje Invalido',
+      subHeader: 'Realizelo de nuevo',
+      buttons: ['OK']});await alert.present();}
   async loadData() {this.driverList = await this.driversListService.getDataDriversList();}
 
   async addData() {
-    this.list.seatsAvailable = this.list.seats
-    await this.driversListService.addDataToDriversList(this.list);
-    this.createUserDriver();
-    this.loadData();
+    if (this.list.seats>0 && this.list.price>0){
+      this.list.seatsAvailable = this.list.seats
+      await this.driversListService.addDataToDriversList(this.list);
+      this.createUserDriver();
+      this.loadData();
+      this.presentAlert();
+      this.router.navigate(['/home']);
+    }
+    else {
+      this.presentAlertError();
+
+
+    }
   }
 
   async createUserDriver(){
@@ -85,9 +99,41 @@ export class DrivePage implements OnInit {
   }
 
   onSubmit() {
-    this.presentAlert();
+    
     this.addData();
-    this.router.navigate(['/home']);
+    
   }
 
+isNumberKey(evt)
+{
+     var charCode = (evt.which) ? evt.which : evt.keyCode;
+     if (charCode < 48 || charCode > 57)
+             return false;
+     return true;
 }
+
+gotChar(eve) {
+  this.checker1 = eve.target.value === '0' ? true : false ;
+}
+
+gotChar2(eve) {
+  this.checker2 = eve.target.value === '0' ? true : false ;
+}
+
+
+gotChange1(eve) {
+  console.log(eve.target.value);
+  this.checker1 = eve.target.value === '0' ? true : false;
+ }
+
+ gotChange2(eve) {
+  console.log(eve.target.value);
+  this.checker2 = eve.target.value === '0' ? true : false;
+ }
+}
+
+
+
+
+
+
