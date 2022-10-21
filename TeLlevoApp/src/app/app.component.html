@@ -11,7 +11,12 @@
 
       <!--This is the menu content-->
 
-      <ion-item routerLink="/profile">
+      <ion-item (click)="home()">
+        <ion-icon slot="start" name="home"></ion-icon>
+        Home
+      </ion-item>
+
+      <ion-item (click)="profile()">
         <ion-icon slot="start" name="person-circle"></ion-icon>
         Perfil
       </ion-item>

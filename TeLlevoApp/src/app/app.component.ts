@@ -22,4 +22,12 @@ export class AppComponent {
     this.storage.set('session', null)
     this.router.navigate(['/login'], {replaceUrl: true});
   }
+
+  home(){
+    this.router.navigate(['/home'], {replaceUrl: true});
+  }
+
+  profile(){
+    this.router.navigate(['/profile'], {replaceUrl: true});
+  }
 }

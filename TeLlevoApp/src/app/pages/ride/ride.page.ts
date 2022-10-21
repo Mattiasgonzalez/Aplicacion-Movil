@@ -52,7 +52,7 @@ export class RidePage implements OnInit {
 
   async seatsHandler(index){
     console.log(this.coleccion[index].seatsAvailable)
-    if(this.coleccion[index].seatsAvailable > 1){
+    if(this.coleccion[index].seatsAvailable >= 1){
       this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
       await this.driversListService.updateSeatsDriversList(this.coleccion);
       await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, {name: this.user.name, userName: this.name});

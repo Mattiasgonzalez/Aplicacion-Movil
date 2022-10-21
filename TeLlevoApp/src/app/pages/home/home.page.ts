@@ -44,25 +44,32 @@ export class HomePage implements OnInit {
     if(this.drive!=null){
       this.auxDrive = true;
     }
+    
+  }
+  
+  async rideH(){
     if(this.ride==null){
       this.auxRide = false;
     }else{
       this.auxRide = true;
     }
   }
-  
 
   async sessionName() {
     this.name = await this.storage.get('session');
     this.driverList = await this.driversListService.getDataDriversList();
     this.drive = await this.driversListService.getUserDrive(this.name);
     this.ride = await this.driversListService.getUserRide(this.name);
+    await this.rideH();
     this.driversPassangers = await this.driversListService.getUserDrivePassangers(this.name);
+    console.log(this.auxRide);
     await this.dpar()
     this.driverList2 = await this.driversListService.getDataDriversList();
+    console.log(this.driversPassangersAsRider)
   }
   async dpar(){
     if(this.auxRide ==true){
+      console.log("dentro dpar")
       this.driversPassangersAsRider = await this.driversListService.getUserDrivePassangers(this.ride.driversUserName);
     }
     
@@ -75,8 +82,16 @@ async clickFinishDrive(){
       await this.driversListService.updateSeatsDriversList(this.driverList);
     }
   }
+  await this.cfd1();
   await this.driversListService.removeUserDriver(this.name);
+  await this.driversListService.removeUserDrivePassangers(this.name);
   window.location.reload();
+}
+
+async cfd1(){
+  for (let index = 0; index < this.driversPassangers.length; index++) {
+   await this.driversListService.removeUserRide(this.driversPassangers[index].userName)
+  }
 }
 
 
@@ -116,24 +131,34 @@ async clickFinishDrive(){
     this.router.navigate(['/ride'], {replaceUrl:true});
   }
 
-  finalizarpasajero(){
-    this.cancelarpasajero();
+  async finalizarpasajero(){
+    await this.p1();
+    await this.p2();
+    await this.cancelarpasajero();
+    window.location.reload();
   }
 
-  async cancelarpasajero(){
+  //pasajeros lista
+  async p1(){
     for (let index = 0; index < this.driversPassangersAsRider.length; index++) {
+      console.log(this.driversPassangersAsRider[index])
       if(this.driversPassangersAsRider[index].userName == this.name){
-        await this.driversListService.removeUserDrivePassangers2(this.driversPassangersAsRider[index].userName, index)
-        for (let index = 0; index < this.driverList2.length; index++) {
-          if(this.driverList2[index].userName == this.ride.driversUserName && this.driverList2[index].available == true){
-            console.log("hello")
-            this.driverList2[index].seatsAvailable = this.driverList2[index].seatsAvailable + 1;
-            await this.driversListService.updateSeatsDriversList(this.driverList2); 
-          }
-        }
+        console.log("p1p1p1")
+        await this.driversListService.removeUserDrivePassangers2(this.ride.driversUserName, index)
       }
     }
+  }
+
+  //Asientos
+  async p2(){
+    for (let index = 0; index < this.driverList2.length; index++) {
+      if(this.driverList2[index].userName == this.ride.driversUserName && this.driverList2[index].available == true){
+        this.driverList2[index].seatsAvailable = this.driverList2[index].seatsAvailable + 1;
+        await this.driversListService.updateSeatsDriversList(this.driverList2); 
+      }
+  }}
+
+  async cancelarpasajero(){
     await this.driversListService.removeUserRide(this.name);
   }
-  
 }

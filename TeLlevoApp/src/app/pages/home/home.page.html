@@ -1,6 +1,12 @@
-<ion-header>
-  <app-header [name]='name'></app-header>
-</ion-header>
+<ion-toolbar color="secondary" class="ion-padding-horizontal">
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-icon  slot="icon-only" name="person-circle"></ion-icon>
+  </ion-buttons>
+  <ion-title class="animate__animated animate__jackInTheBox" class="ion-text-center">Bienvenido {{name}}</ion-title>
+</ion-toolbar>
 <ion-content>
 
   <ion-grid style="padding-top: 40%;">
@@ -45,7 +51,7 @@
           <p>Destino  : {{ride.direction}}</p>
           <p>Hora de salida: {{ride.time}}</p>
           <p>Automovil: {{ride.description}}</p>
-          <p>Precio: {{ride.price}}</p>
+          <p>Precio: $  {{ride.price}}</p>
         </ion-label>
       </ion-item>
     </ion-row>
@@ -53,13 +59,6 @@
       <ion-col size="12">
         <ion-button (click)="finalizarpasajero()" expand="block" color="success" shape="round">
           Llegue a Casa
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="auxRide">
-      <ion-col size="12">
-        <ion-button (click)="cancelarpasajero()" expand="block" color="success" shape="round">
-          Cancelar viaje
         </ion-button>
       </ion-col>
     </ion-row>
