@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { User } from 'src/app/interfaces/user';
 import { DriversListService } from 'src/app/services/drivers-list.service';
@@ -15,10 +15,14 @@ export class DrivePage implements OnInit {
     private alertController: AlertController,
     private driversListService: DriversListService,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private platform: Platform
   ) {
     this.name();
     this.loadData();
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.router.navigate(['/home'])
+    });
   }
   checker1: boolean = true;
   checker2: boolean = true;

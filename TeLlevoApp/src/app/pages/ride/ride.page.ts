@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { destroyView } from '@ionic/angular/directives/navigation/stack-utils';
 import { Storage } from '@ionic/storage-angular';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-ride',
@@ -14,8 +15,12 @@ export class RidePage implements OnInit {
   constructor(
       private driversListService: DriversListService,
       private router: Router,
-      private storage: Storage) { 
+      private storage: Storage,
+      private platform: Platform) { 
     this.loadData();
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.router.navigate(['/home'])
+    });
   }
 
 
