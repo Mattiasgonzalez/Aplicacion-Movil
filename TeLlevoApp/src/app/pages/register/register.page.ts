@@ -29,8 +29,8 @@ export class RegisterPage implements OnInit {
       lastName: ['', [Validators.required, Validators.maxLength(20)]],
       userName: ['', [Validators.required, Validators.maxLength(20)]],
       password: ['', [Validators.required, Validators.maxLength(20)]],
-      rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9)]],
-      number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9),Validators.pattern('[0-9]*')]],
+      number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]*')]],
       pregunta:['', [Validators.required, Validators.maxLength(20)]],
     })
 
@@ -82,5 +82,5 @@ export class RegisterPage implements OnInit {
     });
     await loading.present();
   }
-
+  
 }
