@@ -17,18 +17,18 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="auxDrive == false && auxRide == false"  class="parent-row">
+    <ion-row class="parent-row">
       <ion-col size="12">
         <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" (click)="routerToPasajero()" expand="block" shape="round">
           Necesito transporte
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="auxDrive == false && auxRide == false">
+    <ion-row >
       <ion-col size="12">
         <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" 
         (click)="clickToDrive()"  expand="block" shape="round">
-          Yo Conduzco
+          Programar viaje
         </ion-button>
       </ion-col>
     </ion-row>
