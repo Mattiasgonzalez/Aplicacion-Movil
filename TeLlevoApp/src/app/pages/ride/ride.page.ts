@@ -23,7 +23,7 @@ export class RidePage implements OnInit {
     });
   }
 
-
+  users;
   name = '';
   user={name:''};
 
@@ -31,9 +31,19 @@ export class RidePage implements OnInit {
   coleccion = [];
 
   async loadData(){
-    this.driverList = await this.driversListService.getDataDriversList();
+    this.driversListService.readCol('driversList').subscribe(res => {
+      this.driverList = res;
+      this.coleccion = this.driverList;
+    });
+    //this.driverList = await this.driversListService.getDataDriversList();
     this.name = await this.storage.get('session');
-    this.user = await this.storage.get(this.name);
+    for (let index = 0; index < this.users.length; index++) {
+      if(this.users[index].userName == this.name){
+        this.user = this.users[index];
+      }
+    }
+    //this.user = await this.storage.get(this.name);
+    //this.coleccion = this.driverList;
   }
 
   ngOnInit() {
@@ -42,7 +52,7 @@ export class RidePage implements OnInit {
   doRefresh(evento) {
     setTimeout(() => {
       evento.target.complete();
-      this.coleccion = this.driverList;
+      window.location.reload();
     }, 2000);
   }
 
@@ -59,8 +69,20 @@ export class RidePage implements OnInit {
     console.log(this.coleccion[index].seatsAvailable)
     if(this.coleccion[index].seatsAvailable >= 1){
       this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
+      for (let index = 0; index < this.coleccion.length; index++) {
+        this.driversListService.createDoc(this.coleccion[index],'driversList',this.coleccion[index].userName);
+        
+      }
       await this.driversListService.updateSeatsDriversList(this.coleccion);
+      this.driversListService.createDoc({name: this.user.name, userName: this.name}, this.name+'-drive-passangers',this.name)
       await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, {name: this.user.name, userName: this.name});
+      this.driversListService.createDoc({driversUserName: this.coleccion[index].userName,
+        driversName: this.coleccion[index].name,
+        price: this.coleccion[index].price,
+        direction: this.coleccion[index].direction,
+        description: this.coleccion[index].description,
+        time: this.coleccion[index].time
+        },this.name+'-ride',this.name)
       await this.driversListService.updateUserRide(this.name, {driversUserName: this.coleccion[index].userName,
                                                     driversName: this.coleccion[index].name,
                                                     price: this.coleccion[index].price,
@@ -71,6 +93,10 @@ export class RidePage implements OnInit {
     }else{
       this.coleccion[index].available = false;
       this.coleccion[index].seatsAvailable = 0
+      for (let index = 0; index < this.coleccion.length; index++) {
+        this.driversListService.createDoc(this.coleccion[index],'driversList',this.coleccion[index].userName);
+        
+      }
       await this.driversListService.updateSeatsDriversList(this.coleccion);
     }
   }

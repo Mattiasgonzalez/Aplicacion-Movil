@@ -1,3 +1,4 @@
+import { DriversListService } from 'src/app/services/drivers-list.service';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController } from '@ionic/angular';
@@ -20,16 +21,24 @@ export class LoginPage implements OnInit {
         pregunta: '',
     }
 
+    users;
+
     constructor(
         private alertController: AlertController,
         private router: Router,
         private loadingCtrl: LoadingController,
         private MenuController: MenuController,
-        private storage: Storage
+        private storage: Storage,
+        private driversListService: DriversListService,
     ) { }
 
     async ngOnInit() {
         await this.storage.set('session', null);
+        this.users = this.driversListService.readCol('users').subscribe(res => {
+            console.log(res); 
+            this.users = res; 
+            this.storage.set('users',this.users);
+        });
     }
 
     ionViewWillEnter() {
@@ -45,19 +54,20 @@ export class LoginPage implements OnInit {
       }
 
     async onSubmit() {
-        let userValidation = await this.storage.get(this.user.userName);
-        if (userValidation!=null){
-            if (this.user.userName == userValidation.userName && this.user.password == userValidation.password) {
-                this.storage.set('session', this.user.userName);
-                this.showLoading();
-                setTimeout(() => {
-                    this.router.navigate(['/home']);
-                }, 1000);
+        let failed = true;
+        for (let index = 0; index < this.users.length; index++) {
+            if (this.users[index].userName == this.user.userName) {
+                if (this.users[index].password == this.user.password){
+                    this.storage.set('session', this.user.userName);
+                    this.showLoading();
+                    setTimeout(() => {
+                        this.router.navigate(['/home']);
+                    }, 1000);
+                    failed = false;
+                }
             }
         }
-        else {
-            this.failedLogin();
-        }
+        if(failed){this.failedLogin();}
     }
 
     async failedLogin() {

@@ -1,3 +1,4 @@
+import { DriversListService } from 'src/app/services/drivers-list.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
@@ -13,6 +14,7 @@ export class RegisterPage implements OnInit {
   // Variables
   ionicForm: FormGroup;
   isSubmitted = false;
+  users;
 
   constructor(
     private storage: Storage,
@@ -20,20 +22,25 @@ export class RegisterPage implements OnInit {
     private alertController: AlertController,
     public formBuilder: FormBuilder,
     private LoadingController: LoadingController,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private driversListService: DriversListService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.ionicForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20)]],
       lastName: ['', [Validators.required, Validators.maxLength(20)]],
       userName: ['', [Validators.required, Validators.maxLength(20)]],
       password: ['', [Validators.required, Validators.maxLength(20)]],
-      rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9),Validators.pattern('[0-9]*')]],
+      rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9), Validators.pattern('[0-9]*')]],
       number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]*')]],
-      pregunta:['', [Validators.required, Validators.maxLength(20)]],
+      pregunta: ['', [Validators.required, Validators.maxLength(20)]],
     })
+    await this.getUsers();
+  }
 
+  async getUsers() {
+    this.users = await this.driversListService.getAllUsers();
   }
 
   ionViewWillEnter() { this.menuController.enable(false); }
@@ -51,19 +58,30 @@ export class RegisterPage implements OnInit {
       this.createAccount();
     }
   }
-
+  accAlreadyExists = 'xd';
   // Creamos la cuenta si esque esta no existe
-  async createAccount() {
-    let accAlreadyExists = await this.storage.get(this.ionicForm.get('userName').value);
-    //let userAux = this.ionicForm.get('userName').value + "-user"
-    if (accAlreadyExists == null) {
-      await this.storage.set(this.ionicForm.get('userName').value, this.ionicForm.value);
-      this.showLoading();
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      },
-        1100);
-    } else { this.failedRegister() }
+  createAccount() {
+    let canCreate = true;
+    console.log(this.users[0].userName);
+    for (let index = 0; index < this.users.length; index++) {
+      if (this.ionicForm.get('userName').value == this.users[index].userName) {
+        canCreate = false;
+      }
+    }
+    if (canCreate) {
+      this.driversListService.readDoc(this.ionicForm.get('userName').value, 'users').subscribe(respuesta => {
+        if (true) {
+          this.driversListService.createDoc(this.ionicForm.value, 'users', this.ionicForm.get('userName').value)
+          this.showLoading();
+          setTimeout(() => {
+            this.router.navigate(['/login'], {replaceUrl: true});
+          },
+            1100);
+        };
+      })
+    }else{
+      this.failedRegister();
+    }
   }
 
   async failedRegister() {
@@ -82,5 +100,5 @@ export class RegisterPage implements OnInit {
     });
     await loading.present();
   }
-  
+
 }

@@ -44,6 +44,7 @@ export class HomePage implements OnInit {
     if(this.drive!=null){
       this.auxDrive = true;
     }
+    //this.driversListService.deleteCol('driversList')
     
   }
   

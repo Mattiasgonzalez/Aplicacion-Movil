@@ -18,6 +18,7 @@ export class DrivePage implements OnInit {
     private storage: Storage,
     private platform: Platform
   ) {
+    this.getUsers();
     this.name();
     this.loadData();
     this.platform.backButton.subscribeWithPriority(10, () => {
@@ -29,6 +30,7 @@ export class DrivePage implements OnInit {
 
   /* ---------- VARIABLES ---------- */
 
+  users;
   user : User = {
     name: '',
     lastName: '',
@@ -57,6 +59,10 @@ export class DrivePage implements OnInit {
   /* ---------- FUNCIONES ---------- */
 
   // Alerta
+
+  async getUsers() {
+    this.users = await this.driversListService.getAllUsers();
+  }
   
   ngOnInit() {
   }
@@ -70,23 +76,32 @@ export class DrivePage implements OnInit {
   // llamamos a los nombres de session y llenamos una lista
   async name(){
     this.list.userName = await this.storage.get('session');
-    this.user = await this.storage.get(this.list.userName);
+    for (let index = 0; index < this.users.length; index++) {
+      if(this.users[index].userName == this.list.userName){
+        this.user = this.users[index];
+      }
+    }
+    //this.user = await this.storage.get(this.list.userName);
     this.list.name = this.user.name;
+    //console.log(this.list);
   }
   async presentAlertError() {
     const alert = await this.alertController.create({
       header: 'Viaje Invalido',
       subHeader: 'Realizelo de nuevo',
       buttons: ['OK']});await alert.present();}
-  async loadData() {this.driverList = await this.driversListService.getDataDriversList();}
+  
+      async loadData() {this.driverList = await this.driversListService.getDataDriversList();}
 
   async addData() {
     if (this.list.seats>0 && this.list.price>0){
       this.list.seatsAvailable = this.list.seats
       await this.driversListService.addDataToDriversList(this.list);
+      this.driversListService.createDoc(this.list,'driversList',this.list.userName);
       this.createUserDriver();
       this.loadData();
       this.presentAlert();
+      await this.driversListService.createDoc([],this.list.userName+ '-drive-passangers',this.list.userName);
       this.router.navigate(['/home']);
     }
     else {
@@ -99,6 +114,8 @@ export class DrivePage implements OnInit {
   async createUserDriver(){
     //let aux = await this.driversListService.getUserDrive(this.list.userName);
     await this.driversListService.createUserDriver(this.list.userName, this.list);
+    await this.driversListService.createDoc(this.list,this.list.userName+ '-drive',this.list.userName);
+    await this.driversListService.createDoc([],this.list.userName+ '-drive-passangers',this.list.userName);
     
   }
 
