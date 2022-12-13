@@ -8,65 +8,90 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: './forgotpassword.page.html',
   styleUrls: ['./forgotpassword.page.scss'],
 })
-export class ForgotpasswordPage implements OnInit {    user = {
-  name: '',
-  lastName: '',
-  userName: '',
-  password: '',
-  rut: '',
-  number: '',
-  pregunta: '',
-}
+export class ForgotpasswordPage implements OnInit {
+    users;
+    user = {
+      name: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      rut: '',
+      number: '',
+      pregunta: '',
+      respuesta: ''
+    }
+    userValidationHtml = false;
+    userQuestion;
+    userValidation;
 
-constructor(
-  private alertController: AlertController,
-  private router: Router,
-  private loadingCtrl: LoadingController,
-  private MenuController: MenuController,
-  private storage: Storage
-) { }
+  constructor(
+    private alertController: AlertController,
+    private router: Router,
+    private loadingCtrl: LoadingController,
+    private MenuController: MenuController,
+    private storage: Storage
+  ) { }
 
-ngOnInit() {
-}
+  async ngOnInit() {
+    this.users = await this.storage.get('users');
+  }
 
-ionViewWillEnter() {
-  this.MenuController.enable(false);
-}
+  ionViewWillEnter() {
+    this.MenuController.enable(false);
+  }
 
-ionViewDidLeave() {
-  this.MenuController.enable(true);
-}
+  ionViewDidLeave() {
+    this.MenuController.enable(true);
+  }
 
-async onSubmit() {
-  let userValidation = await this.storage.get(this.user.userName);
-  if (userValidation!=null){
-      if (this.user.userName == userValidation.userName && this.user.pregunta == userValidation.pregunta) {
-          this.storage.set('session', this.user.userName);
-          this.showLoading();
-          setTimeout(() => {
-              this.router.navigate(['/profile'], {replaceUrl: true});
-          }, 1000);
+  async onSubmit() {
+
+    
+
+    if (this.userValidation != undefined) {
+      if (this.user.userName == this.userValidation.userName && this.user.respuesta == this.userValidation.respuesta) {
+        this.storage.set('session', this.user.userName);
+        this.showLoading();
+        setTimeout(() => {
+          this.router.navigate(['/profile'], { replaceUrl: true });
+        }, 1000);
       }
-  }
-  else {
+    }
+    else {
       this.failedLogin();
+    }
   }
-}
 
-async failedLogin() {
-  const alert = await this.alertController.create({
+  async failedLogin() {
+    const alert = await this.alertController.create({
       header: 'Error',
       message: 'Usuario o Respuesta incorrecto(s)',
       buttons: ['OK'],
-  });
-  await alert.present();
-}
+    });
+    await alert.present();
+  }
 
-async showLoading() {
-  const loading = await this.loadingCtrl.create({
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
       message: 'Autenticando...',
       duration: 1000,
-  });
-  await loading.present();
-}
+    });
+    await loading.present();
+  }
+
+  validar(){
+    this.userValidation;
+    for (let index = 0; index < this.users.length; index++) {
+      if(this.users[index].userName == this.user.userName){
+        this.userValidation = this.users[index];
+        this.userQuestion = this.users[index].pregunta;
+        this.userValidationHtml = true;
+      } 
+      
+    }
+  }
+
+  volver(){
+    this.router.navigate(['/login'],{replaceUrl:true})
+  }
 }

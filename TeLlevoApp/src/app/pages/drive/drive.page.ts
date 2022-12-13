@@ -101,7 +101,7 @@ export class DrivePage implements OnInit {
       this.createUserDriver();
       this.loadData();
       this.presentAlert();
-      await this.driversListService.createDoc([],this.list.userName+ '-drive-passangers',this.list.userName);
+      await this.driversListService.createDoc({},this.list.userName+ '-drive-passangers',this.list.userName);
       this.router.navigate(['/home']);
     }
     else {
@@ -115,7 +115,7 @@ export class DrivePage implements OnInit {
     //let aux = await this.driversListService.getUserDrive(this.list.userName);
     await this.driversListService.createUserDriver(this.list.userName, this.list);
     await this.driversListService.createDoc(this.list,this.list.userName+ '-drive',this.list.userName);
-    await this.driversListService.createDoc([],this.list.userName+ '-drive-passangers',this.list.userName);
+    await this.driversListService.createDoc({},this.list.userName+ '-drive-passangers',this.list.userName);
     
   }
 

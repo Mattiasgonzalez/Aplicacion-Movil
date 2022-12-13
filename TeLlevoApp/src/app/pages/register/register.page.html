@@ -84,17 +84,20 @@
     </span>
 
     <ion-item>
-      <ion-select placeholder="Elija Pregunta">
-        <ion-select-option value="ciudad">¿Ciudad de nacimiento?</ion-select-option>
-        <ion-select-option value="animal">¿Animal Favorito?</ion-select-option>
-        <ion-select-option value="comida">¿Comida Favorita?</ion-select-option>
+      <ion-select placeholder="Elija Pregunta" formControlName="pregunta">
+        <ion-select-option value="¿Ciudad de nacimiento?">¿Ciudad de nacimiento?</ion-select-option>
+        <ion-select-option value="¿Animal Favorito">¿Animal Favorito?</ion-select-option>
+        <ion-select-option value="¿Comida Favorita?">¿Comida Favorita?</ion-select-option>
       </ion-select>
-      <ion-input formControlName="pregunta" type="text" placeholder="Respuesta" required clearInput></ion-input>
+      <ion-input formControlName="respuesta" type="text" placeholder="Respuesta" required clearInput></ion-input>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.pregunta.errors?.required">
+      Selecciones una pregutna secreta
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.respuesta.errors?.required">
       Respuesta requerida
     </span>
-    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.pregunta.errors?.maxlength">
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.respuesta.errors?.maxlength">
       Su respuesta no puede exceder los 20 caracteres
     </span>
 

@@ -39,6 +39,7 @@ export class LoginPage implements OnInit {
             this.users = res; 
             this.storage.set('users',this.users);
         });
+
     }
 
     ionViewWillEnter() {

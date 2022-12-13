@@ -37,6 +37,7 @@ export class RidePage implements OnInit {
     });
     //this.driverList = await this.driversListService.getDataDriversList();
     this.name = await this.storage.get('session');
+    this.users = await this.storage.get('users')
     for (let index = 0; index < this.users.length; index++) {
       if(this.users[index].userName == this.name){
         this.user = this.users[index];
@@ -67,11 +68,12 @@ export class RidePage implements OnInit {
 
   async seatsHandler(index){
     console.log(this.coleccion[index].seatsAvailable)
+    
     if(this.coleccion[index].seatsAvailable >= 1){
       this.coleccion[index].seatsAvailable = this.coleccion[index].seatsAvailable - 1;
-      for (let index = 0; index < this.coleccion.length; index++) {
-        this.driversListService.createDoc(this.coleccion[index],'driversList',this.coleccion[index].userName);
-        
+      for (let i = 0; i < this.coleccion.length; i++) {
+        this.driversListService.createDoc(this.coleccion[i],'driversList',this.coleccion[i].userName);
+        this.driversListService.createDoc(this.coleccion[i],this.coleccion[i].userName+'-drive',this.coleccion[i].userName)
       }
       await this.driversListService.updateSeatsDriversList(this.coleccion);
       this.driversListService.createDoc({name: this.user.name, userName: this.name}, this.name+'-drive-passangers',this.name)

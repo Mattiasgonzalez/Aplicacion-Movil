@@ -34,7 +34,8 @@ export class RegisterPage implements OnInit {
       password: ['', [Validators.required, Validators.maxLength(20)]],
       rut: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(9), Validators.pattern('[0-9]*')]],
       number: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]*')]],
-      pregunta: ['', [Validators.required, Validators.maxLength(20)]],
+      respuesta: ['', [Validators.required, Validators.maxLength(20)]],
+      pregunta: ['', [Validators.required]]
     })
     await this.getUsers();
   }
@@ -62,7 +63,7 @@ export class RegisterPage implements OnInit {
   // Creamos la cuenta si esque esta no existe
   createAccount() {
     let canCreate = true;
-    console.log(this.users[0].userName);
+    //console.log(this.users[0].userName)
     for (let index = 0; index < this.users.length; index++) {
       if (this.ionicForm.get('userName').value == this.users[index].userName) {
         canCreate = false;
