@@ -35,7 +35,6 @@ export class RidePage implements OnInit {
       this.driverList = res;
       this.coleccion = this.driverList;
     });
-    //this.driverList = await this.driversListService.getDataDriversList();
     this.name = await this.storage.get('session');
     this.users = await this.storage.get('users')
     for (let index = 0; index < this.users.length; index++) {
@@ -43,8 +42,6 @@ export class RidePage implements OnInit {
         this.user = this.users[index];
       }
     }
-    //this.user = await this.storage.get(this.name);
-    //this.coleccion = this.driverList;
   }
 
   ngOnInit() {
@@ -76,8 +73,7 @@ export class RidePage implements OnInit {
         this.driversListService.createDoc(this.coleccion[i],this.coleccion[i].userName+'-drive',this.coleccion[i].userName)
       }
       await this.driversListService.updateSeatsDriversList(this.coleccion);
-      this.driversListService.createDoc({name: this.user.name, userName: this.name}, this.name+'-drive-passangers',this.name)
-      await this.driversListService.addUserDrivePassangers(this.coleccion[index].userName, {name: this.user.name, userName: this.name});
+      this.driversListService.createDoc({name: this.user.name, userName: this.name}, this.coleccion[index].userName+'-drive-passangers',this.name)
       this.driversListService.createDoc({driversUserName: this.coleccion[index].userName,
         driversName: this.coleccion[index].name,
         price: this.coleccion[index].price,

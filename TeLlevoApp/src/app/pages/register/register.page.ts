@@ -63,7 +63,6 @@ export class RegisterPage implements OnInit {
   // Creamos la cuenta si esque esta no existe
   createAccount() {
     let canCreate = true;
-    //console.log(this.users[0].userName)
     for (let index = 0; index < this.users.length; index++) {
       if (this.ionicForm.get('userName').value == this.users[index].userName) {
         canCreate = false;

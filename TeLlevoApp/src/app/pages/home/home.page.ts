@@ -14,9 +14,10 @@ export class HomePage implements OnInit {
   name = '';
   drive = {}
   auxDrive = false;
+  auxDrive2 = false;
   driverList = [];
   driverList2 = [];
-  driversPassangers = [];
+  driversPassangers;
   driversPassangersAsRider = [];
   auxRide = false;
   ride = {
@@ -39,18 +40,10 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await this.sessionName()
-    console.log("lol " + this.name + " " + this.drive)
-    console.log(this.drive)
-    if (this.drive != null) {
-      this.auxDrive = true;
-    }
-    //this.driversListService.deleteCol('driversList')
-    //this.driversListService.createDoc({},'test','test')
-
   }
 
   async rideH() {
-    if (this.ride == null) {
+    if (this.ride == undefined) {
       this.auxRide = false;
     } else {
       this.auxRide = true;
@@ -62,40 +55,46 @@ export class HomePage implements OnInit {
 
     this.driversListService.readCol('driversList').subscribe(res => {
       this.driverList = res;
+      this.driverList2 = this.driverList;
     });
-    //this.driverList = await this.driversListService.getDataDriversList();
+    this.driversListService.readDoc(this.name + '-drive', this.name).subscribe(res => {
+      this.drive = res;
+      let aux;
+      aux = res;
+      if (aux.available == true) {
+        this.auxDrive = true;
+      }else{
+        this.auxDrive = false
+      }
 
-    this.drive = this.driversListService.readDoc(this.name + '-drive', this.name);
-    //this.drive = await this.driversListService.getUserDrive(this.name);
-    let aux;
-    aux = this.driversListService.readDoc(this.name + '-ride', this.name);
-    this.ride = aux;
-    //this.ride = await this.driversListService.getUserRide(this.name);
+    })
+    this.driversListService.readDoc(this.name + '-ride', this.name).subscribe(res => {
+      let aux;
+      aux = res;
+      this.ride = aux;
+      console.log('dentro de sub -ride')
+      console.log(this.ride);
+      if(this.ride == undefined){
+        this.auxRide = false
+      }else{
+        this.auxRide = true;
+      }
+    })
 
-    await this.rideH();
+    this.driversListService.readCol(this.name + '-drive-passangers').subscribe(res => {
+      let aux;
+      aux = res;
+      this.driversPassangers = aux;
+      let bol = true
+      console.log(this.driversPassangers.length)
+      
+      if(this.driversPassangers.length > 1) {
+        this.auxDrive2 = true;
+      }else{
+        this.auxDrive2 =false;
+      }
 
-    let aux2;
-    aux2 = this.driversListService.readDoc(this.name + '-drive-passangers', this.name);
-    this.driversPassangers = aux2;
-    //this.driversPassangers = await this.driversListService.getUserDrivePassangers(this.name);
-
-    console.log(this.auxRide);
-
-    await this.dpar()
-
-    this.driverList2 = this.driverList;
-    //this.driverList2 = await this.driversListService.getDataDriversList();
-
-    console.log(this.driversPassangersAsRider)
-  }
-  async dpar() {
-    if (this.auxRide == true) {
-      console.log("dentro dpar")
-      let aux2;
-      aux2 = this.driversListService.readDoc(this.ride.driversUserName + '-drive-passangers', this.name);
-      this.driversPassangers = aux2;
-      //this.driversPassangersAsRider = await this.driversListService.getUserDrivePassangers(this.ride.driversUserName);
-    }
+    })
 
   }
 
@@ -103,29 +102,32 @@ export class HomePage implements OnInit {
     for (let index = 0; index < this.driverList.length; index++) {
       if (this.driverList[index].available == true && this.driverList[index].userName == this.name) {
         this.driverList[index].available = false;
-        await this.driversListService.updateSeatsDriversList(this.driverList);
+        this.driversListService.createDoc(this.driverList[index], 'driversList', this.name)
       }
     }
     await this.cfd1();
-    await this.driversListService.removeUserDriver(this.name);
-    await this.driversListService.removeUserDrivePassangers(this.name);
-    window.location.reload();
+    this.driversListService.deleteDoc(this.name + '-drive', this.name);
+    for (let index = 0; index < this.driversPassangers.length; index++) {
+      this.driversListService.deleteDoc(this.name + '-drive-passangers', this.driversPassangers[index].userName)
+    }
+    this.driversListService.deleteDoc(this.name + '-drive-passangers', 'test');
+    this.router.navigate(['/payment'], { replaceUrl: true });
   }
 
   async cfd1() {
     for (let index = 0; index < this.driversPassangers.length; index++) {
-      await this.driversListService.removeUserRide(this.driversPassangers[index].userName)
+      this.driversListService.deleteDoc(this.driversPassangers[index].userName + '-ride', this.driversPassangers[index].userName)
     }
   }
 
 
-  /* ---------- LINK A VISTA DRIVE ----------*/
+  // ---------- LINK A VISTA DRIVE ----------
 
   clickToDrive() {
-    if (this.drive != null && this.ride == null) {
+    if (this.auxDrive == true) {
       this.cannotDriveDriving();
     } else {
-      if (this.drive == null && this.ride != null) {
+      if (this.auxRide == true) {
         this.cannotDriveRiding();
       } else {
         this.router.navigate(['/drive'], { replaceUrl: true });
@@ -151,26 +153,49 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
+  async cannotRideRiding() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'Ya tienes un viaje pedido',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  async cannotRideDriving() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'No puedes pedir un viaje mientras tengas un viaje activo como chofer',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
   routerToPasajero() {
-    this.router.navigate(['/ride'], { replaceUrl: true });
+    if (this.auxDrive == true) {
+      this.cannotRideDriving();
+    } else {
+      if (this.auxRide == true) {
+        this.cannotRideRiding();
+      } else {
+        this.router.navigate(['/ride'], { replaceUrl: true });
+      }
+    }
+
   }
 
   async finalizarpasajero() {
     await this.p1();
+    this.driversListService.deleteDoc(this.ride.driversUserName + '-drive-passangers', this.name)
     await this.p2();
     await this.cancelarpasajero();
-    window.location.reload();
+    this.auxRide = false;
+    this.router.navigate(['/payment'], { replaceUrl: true });
   }
 
   //pasajeros lista
   async p1() {
-    for (let index = 0; index < this.driversPassangersAsRider.length; index++) {
-      console.log(this.driversPassangersAsRider[index])
-      if (this.driversPassangersAsRider[index].userName == this.name) {
-        console.log("p1p1p1")
-        await this.driversListService.removeUserDrivePassangers2(this.ride.driversUserName, index)
-      }
-    }
+    this.driversListService.deleteDoc(this.ride.driversUserName + '-drive-passangers', this.name)
   }
 
   //Asientos
@@ -178,12 +203,12 @@ export class HomePage implements OnInit {
     for (let index = 0; index < this.driverList2.length; index++) {
       if (this.driverList2[index].userName == this.ride.driversUserName && this.driverList2[index].available == true) {
         this.driverList2[index].seatsAvailable = this.driverList2[index].seatsAvailable + 1;
-        await this.driversListService.updateSeatsDriversList(this.driverList2);
+        this.driversListService.createDoc(this.driverList2[index], 'driversList', this.ride.driversUserName)
       }
     }
   }
 
   async cancelarpasajero() {
-    await this.driversListService.removeUserRide(this.name);
+    this.driversListService.deleteDoc(this.name + '-ride', this.name);
   }
 }

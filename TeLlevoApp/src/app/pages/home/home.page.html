@@ -3,7 +3,7 @@
     <ion-menu-button></ion-menu-button>
   </ion-buttons>
   <ion-buttons slot="end">
-    <ion-icon  slot="icon-only" name="person-circle"></ion-icon>
+    <ion-icon slot="icon-only" name="person-circle"></ion-icon>
   </ion-buttons>
   <ion-title class="animate__animated animate__jackInTheBox" class="ion-text-center">Bienvenido {{name}}</ion-title>
 </ion-toolbar>
@@ -19,20 +19,21 @@
     </ion-row>
     <ion-row class="parent-row">
       <ion-col size="12">
-        <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" (click)="routerToPasajero()" expand="block" shape="round">
+        <ion-button color="dark" class="animate__animated animate__lightSpeedInRight" (click)="routerToPasajero()"
+          expand="block" shape="round">
           Necesito transporte
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row >
+    <ion-row>
       <ion-col size="12">
-        <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" 
-        (click)="clickToDrive()"  expand="block" shape="round">
+        <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" (click)="clickToDrive()"
+          expand="block" shape="round">
           Programar viaje
         </ion-button>
       </ion-col>
     </ion-row>
-    
+
     <!-- Pasajero -->
     <ion-row *ngIf="auxRide">
       <ion-col size="12">
@@ -48,10 +49,10 @@
         </ion-avatar>
         <ion-label>
           <h2>Nombre chofer: {{ride.driversName}}</h2>
-          <p>Destino  : {{ride.direction}}</p>
+          <p>Destino : {{ride.direction}}</p>
           <p>Hora de salida: {{ride.time}}</p>
           <p>Automovil: {{ride.description}}</p>
-          <p>Precio: $  {{ride.price}}</p>
+          <p>Precio: $ {{ride.price}}</p>
         </ion-label>
       </ion-item>
     </ion-row>
@@ -63,7 +64,7 @@
       </ion-col>
     </ion-row>
 
-    
+
 
     <!-- Chofer -->
     <ion-row *ngIf="auxDrive">
@@ -73,20 +74,29 @@
         </ion-text>
       </ion-col>
     </ion-row>
+    <div *ngIf="auxDrive2">
       <ion-list *ngFor="let item of driversPassangers; let i = index">
-        <ion-item>
-          <ion-avatar>
-            <ion-img src="/assets/img/pasajero.jpg"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <p>Nombre: {{item.name}}</p>
-          </ion-label>
-        </ion-item>
+        <div *ngIf="item.test != 'test'">
+          <ion-item>
+            <ion-avatar>
+              <ion-img src="/assets/img/pasajero.jpg"></ion-img>
+            </ion-avatar>
+            <ion-label>
+              <p>Nombre: {{item.name}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
       </ion-list>
-    <ion-row *ngIf="auxDrive" >
+    </div>
+    <div *ngIf="!auxDrive2 && auxDrive">
+      <ion-text class="ion-text-center">
+        <p>Aun no tienes pasajeros</p>
+      </ion-text>
+    </div>
+    <ion-row *ngIf="auxDrive">
       <ion-col size="12">
-        <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" 
-        (click)="clickFinishDrive()"  expand="block" shape="round">
+        <ion-button color="warning" class="animate__animated animate__lightSpeedInLeft" (click)="clickFinishDrive()"
+          expand="block" shape="round">
           Finalizar ruta
         </ion-button>
       </ion-col>

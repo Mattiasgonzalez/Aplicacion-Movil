@@ -55,17 +55,19 @@ export class DriversListService {
     return await collection.doc(id).delete();
   }
 
-  deleteCol(path: string) {
+  /*async deleteCol(path: string) {
     let aux;
-    const collection = this.fire.collection(path).valueChanges();
+    let collection = this.fire.collection(path).valueChanges();
     collection.subscribe(res =>{
       aux = res;
-      for (let index = 0; index < res.length; index++) {
-        this.deleteDoc(path, aux[index].userName);
-      }
+      
     })
+    for (let index = 0; index < aux.length; index++) {
+      this.deleteDoc(path, aux[index].userName);
+    }
+    collection : 'lmao';
 
-  }
+  }*/
 
   /* ---------- DRIVERS LIST ---------- */
 
